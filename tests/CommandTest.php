@@ -44,7 +44,7 @@ it('returns as error when a route is not documented in the sec', function (): vo
         ->assertExitCode(1);
 });
 
-it('can accept an argument that point to the yaml file', function (): void {
+it('can accept an argument that points to the yaml file', function (): void {
     $router = app()->make('router');
     $router->get('/api/test/', 'TestController@index')->name('test.index');
 
