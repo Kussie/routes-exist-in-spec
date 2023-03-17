@@ -127,7 +127,7 @@ class RoutesExistInSpecCommand extends Command
             return Command::FAILURE;
         }
 
-        $this->info("All API routes accounted for in openapi.yaml.");
+        $this->info('All API routes accounted for in openapi.yaml.');
 
         return Command::SUCCESS;
     }

@@ -84,7 +84,6 @@ it('can use the baseline file to ignore existing missing route documentation in 
         ->expectsOutput('The following routes were not found in the openapi.yaml file:')
         ->expectsOutput('GET /api/helloworld')
         ->assertExitCode(Command::FAILURE);
-
 });
 
 it('can generate a baseline file', function (): void {
