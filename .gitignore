@@ -22,7 +22,6 @@ composer.lock
 # testing
 /coverage
 /build
-/ci-cache
 .php-cs-fixer.cache
 
 # next.js
