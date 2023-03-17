@@ -7,4 +7,3 @@ A Laravel package for comparing routes against an OpenAPI spec and ensuring they
 
 TODO:
 * Ability to generate a baseline file, so only newly added routes will error out
-* Add tests

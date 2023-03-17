@@ -60,8 +60,6 @@ class RoutesExistInSpecCommand extends Command
 
     public function handle(): int
     {
-        $openApiPath = config('openapi.yaml.path');
-
         $this->callSilent('route:clear');
 
         $openApi = $this->loadOpenApiContents();
@@ -87,7 +85,7 @@ class RoutesExistInSpecCommand extends Command
         });
 
         if ($nonExistentRoutes->count() > 0) {
-            $this->error("The following routes were not found in {$openApiPath}");
+            $this->error("The following routes were not found in the openapi.yaml file:");
 
             foreach ($nonExistentRoutes as $route) {
                 $this->error($route);
