@@ -15,7 +15,7 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "slevomat/coding-standard": "^8.0",
-    "nunomaduro/collision": "^6.0",
+    "nunomaduro/collision": "^5.0 | ^6.0",
     "orchestra/testbench": "^7.0",
     "phpunit/phpunit": "^9.5",
     "pestphp/pest": "^1.21",
