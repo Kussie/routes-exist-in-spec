@@ -1,9 +1,9 @@
-name: Standards
+name: Phpunit
 on:
   push:
-    branches: [ main, develop, staging ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop, staging ]
+    branches: [ main, develop ]
 jobs:
   phptest82:
     name: PHP Unit Tests on PHP 8.2

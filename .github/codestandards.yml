@@ -1,9 +1,9 @@
 name: Standards
 on:
   push:
-    branches: [ main, develop, staging ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop, staging ]
+    branches: [ main, develop ]
 jobs:
   phpcs:
     name: PHP Code Standards
