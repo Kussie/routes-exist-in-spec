@@ -1,0 +1,41 @@
+name: Standards
+on:
+  push:
+    branches: [ main, develop, staging ]
+  pull_request:
+    branches: [ main, develop, staging ]
+jobs:
+  phptest82:
+    name: PHP Unit Tests on PHP 8.2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP with composer v2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2, cs2pr
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        env:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{secrets.COMPOSER_AUTH}}"} }'
+        run: composer install --prefer-dist --dev --no-progress --no-suggest
+      - name: Pest
+        run: |
+          ./vendor/bin/pest
+  phptest81:
+    name: PHP Unit Tests on PHP 8.1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP with composer v2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2, cs2pr
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        env:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{secrets.COMPOSER_AUTH}}"} }'
+        run: composer install --prefer-dist --dev --no-progress --no-suggest
+      - name: Pest
+        run: |
+          ./vendor/bin/pest

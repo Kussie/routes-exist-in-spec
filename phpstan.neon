@@ -1,0 +1,11 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    tmpDir: ./ci-cache/phpstan
+    paths:
+        - src
+    # The level 8 is the highest level
+    level: 5
+    #ignoreErrors:
+    checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false

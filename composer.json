@@ -1,0 +1,51 @@
+{
+  "name": "kussie/routes-exist-in-spec",
+  "authors": [
+    {
+      "name": "Ben Kuskopf",
+      "email": "ben@kussie.com.au"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "illuminate/database": "^8.0 | ^9.0 | ^10.0",
+    "illuminate/support": "^8.0 | ^9.0 | ^10.0",
+    "spatie/laravel-package-tools": "^1.9.2"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "slevomat/coding-standard": "^8.0",
+    "nunomaduro/collision": "^6.0",
+    "orchestra/testbench": "^7.0",
+    "phpunit/phpunit": "^9.5",
+    "pestphp/pest": "^1.21",
+    "pestphp/pest-plugin-laravel": "^1.1",
+    "squizlabs/php_codesniffer": "^3.5",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "nunomaduro/larastan": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kussie\\RoutesExistInSpec\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Kussie\\RoutesExistInSpec\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Kussie\\RoutesExistInSpec\\RoutesExistInSpecServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}
