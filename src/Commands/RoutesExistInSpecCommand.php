@@ -19,7 +19,7 @@ class RoutesExistInSpecCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'route:openapi';
+    protected $signature = 'route:openapi {yaml?}';
 
     /**
      * The console command description.
@@ -33,7 +33,11 @@ class RoutesExistInSpecCommand extends Command
      */
     protected function loadOpenApiContents()
     {
-        $openApiPath = config('openapi.yaml.path');
+        if ($this->argument('yaml')) {
+            $openApiPath = $this->argument('yaml');
+        } else {
+            $openApiPath = config('openapi.yaml.path');
+        }
 
         if (! File::exists($openApiPath) || ! File::isReadable($openApiPath)) {
             $this->error('openapi.yaml not found');

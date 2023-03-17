@@ -43,3 +43,13 @@ it('returns as error when a route is not documented in the sec', function (): vo
         ->expectsOutput('GET /api/foobar')
         ->assertExitCode(1);
 });
+
+it('can accept an argument that point to the yaml file', function (): void {
+    $router = app()->make('router');
+    $router->get('/api/test/', 'TestController@index')->name('test.index');
+
+    $yamlPath = __DIR__ . '/fixtures/valid-test-spec.yaml';
+    $this->artisan("route:openapi {$yamlPath}")
+        ->expectsOutput('All 1 API routes accounted for in openapi.yaml.')
+        ->assertExitCode(0);
+});
