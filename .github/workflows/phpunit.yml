@@ -1,4 +1,4 @@
-name: Phpunit
+name: PHPUnit Tests
 on:
   push:
     branches: [ main, develop ]

@@ -1,4 +1,4 @@
-name: Standards
+name: Code Standards
 on:
   push:
     branches: [ main, develop ]
