@@ -3,6 +3,7 @@
 namespace Kussie\RoutesExistInSpec\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -19,7 +20,9 @@ class RoutesExistInSpecCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'route:openapi {yaml?}';
+    protected $signature = 'route:openapi
+                                {yaml? : Path to the OpenAPI Yaml spec file}
+                                {--baseline : Generates a baseline file}';
 
     /**
      * The console command description.
@@ -62,19 +65,47 @@ class RoutesExistInSpecCommand extends Command
         }
     }
 
+    protected function generateAppRouteList(): Collection
+    {
+        $ignoredRoutes = collect();
+
+        if (file_exists(config('openapi.baseline.path'))) {
+            $ignoredRoutes = collect(json_decode(file_get_contents(config('openapi.baseline.path')), true));
+        }
+
+        return collect(Route::getRoutes())
+            ->filter(fn ($route) => 0 === mb_strpos($route->uri, 'api/') && false === Str::contains($route->uri, '{fallbackPlaceholder}'))
+            ->map(fn ($route) => $route->methods()[0] . ' /' . $route->uri)
+            ->reject(function ($item) use ($ignoredRoutes) {
+                return $ignoredRoutes->contains($item);
+            });
+    }
+
     public function handle(): int
     {
+        if ($this->option('baseline')) {
+            if (file_exists(config('openapi.baseline.path'))) {
+                unlink(config('openapi.baseline.path'));
+            }
+
+            $routes = $this->generateAppRouteList();
+
+            file_put_contents(config('openapi.baseline.path', base_path('.routespec-baseline.json')), $routes->toJson());
+
+            $this->info('Baseline file generated successfully at ' . config('openapi.baseline.path', base_path('.routespec.baseline')));
+
+            return Command::SUCCESS;
+        }
+
         $this->callSilent('route:clear');
 
         $openApi = $this->loadOpenApiContents();
 
         if (! $openApi || ! is_array($openApi)) {
-            return 1;
+            return Command::FAILURE;
         }
 
-        $routes = collect(Route::getRoutes())
-            ->filter(fn ($route) => 0 === mb_strpos($route->uri, 'api/') && false === Str::contains($route->uri, '{fallbackPlaceholder}'))
-            ->map(fn ($route) => $route->methods()[0] . ' /' . $route->uri);
+        $routes = $this->generateAppRouteList();
 
         $oaRoutes = [];
 
@@ -84,9 +115,7 @@ class RoutesExistInSpecCommand extends Command
             }
         }
 
-        $nonExistentRoutes = $routes->filter(function ($route) use ($oaRoutes) {
-            return ! in_array($route, $oaRoutes);
-        });
+        $nonExistentRoutes = $routes->filter(fn ($route) => ! in_array($route, $oaRoutes));
 
         if ($nonExistentRoutes->count() > 0) {
             $this->error('The following routes were not found in the openapi.yaml file:');
@@ -95,11 +124,11 @@ class RoutesExistInSpecCommand extends Command
                 $this->error($route);
             }
 
-            return 1;
+            return Command::FAILURE;
         }
 
-        $this->info("All {$routes->count()} API routes accounted for in openapi.yaml.");
+        $this->info("All API routes accounted for in openapi.yaml.");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
