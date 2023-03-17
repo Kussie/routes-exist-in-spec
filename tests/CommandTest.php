@@ -30,7 +30,6 @@ it('returns as successful when all routes are defined', function (): void {
     $this->artisan('route:openapi')
         ->expectsOutput('All 1 API routes accounted for in openapi.yaml.')
         ->assertExitCode(0);
-
 });
 
 it('returns as error when a route is not documented in the sec', function (): void {
@@ -43,5 +42,4 @@ it('returns as error when a route is not documented in the sec', function (): vo
         ->expectsOutput('The following routes were not found in the openapi.yaml file:')
         ->expectsOutput('GET /api/foobar')
         ->assertExitCode(1);
-
 });

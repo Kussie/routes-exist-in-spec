@@ -85,7 +85,7 @@ class RoutesExistInSpecCommand extends Command
         });
 
         if ($nonExistentRoutes->count() > 0) {
-            $this->error("The following routes were not found in the openapi.yaml file:");
+            $this->error('The following routes were not found in the openapi.yaml file:');
 
             foreach ($nonExistentRoutes as $route) {
                 $this->error($route);
